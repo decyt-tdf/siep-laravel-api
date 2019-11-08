@@ -26,13 +26,17 @@ class MatriculasPorSeccion extends Controller
             'ciudad' => 'string',
             'ciudad_id' => 'numeric',
             'centro_id' => 'numeric',
-            'nivel_servicio' => $nivel_servicio_rule,
-            'estado_inscripcion' => $estado_inscripcion_rule,
+            'curso_id' => 'numeric',
             'anio' => $anio_rule,
             'division' => 'string',
+            'nivel_servicio' => $nivel_servicio_rule,
+            'estado_inscripcion' => $estado_inscripcion_rule,
             'sector' => 'string',
             'status' => 'string',
             'turno' => 'string',
+            'hermano' => 'string',
+            'tipo' => 'string',
+            'vacantes' => 'string',
         ];
 
         // Se validan los parametros
@@ -323,7 +327,7 @@ class MatriculasPorSeccion extends Controller
         $turno = Input::get('turno');
 
         // Por defecto Curso.status = 1
-        if(isset($status)) {
+        if(!empty($status)) {
             if(is_numeric($status)) {
                 $query = $query->where('cursos.status',$status);
             }
@@ -332,7 +336,7 @@ class MatriculasPorSeccion extends Controller
         }
 
         // Por defecto se listan las inscripciones confirmadas
-        if(isset($estado_inscripcion)) {
+        if(!empty($estado_inscripcion)) {
             if(is_array($estado_inscripcion))
             {
                 $query = $query->where(function($subquery)
@@ -348,41 +352,41 @@ class MatriculasPorSeccion extends Controller
         }
 
         // Aplicacion de filtros
-        if(isset($ciclo)) {
+        if(!empty($ciclo)) {
             $query = $query->where('ciclos.nombre',$ciclo);
         }
-        if(isset($ciudad)) {
+        if(!empty($ciudad)) {
             $query = $query->where('ciudads.nombre',$ciudad);
         }
-        if(isset($ciudad_id)) {
+        if(!empty($ciudad_id)) {
             $query = $query->where('ciudads.id',$ciudad_id);
         }
-        if(isset($centro_id)) {
+        if(!empty($centro_id)) {
             $query = $query->where('inscripcions.centro_id',$centro_id);
         }
-        if(isset($hermano)) {
+        if(!empty($hermano)) {
             $query = $query->where('inscripcions.hermano_id','<>',null);
         }
-        if(isset($sector)) {
+        if(!empty($sector)) {
             $query = $query->where('centros.sector',$sector);
         }
-        if(isset($nivel_servicio)) {
+        if(!empty($nivel_servicio)) {
             $query = $query->whereArr('centros.nivel_servicio',$nivel_servicio);
         }
-        if(isset($curso_id)) {
+        if(!empty($curso_id)) {
             $query = $query->where('cursos.id',$curso_id);
         }
-        if(isset($anio)) {
+        if(!empty($anio)) {
             $query = $query->whereArr('cursos.anio',$anio);
         }
-        if(isset($tipo)) {
+        if(!empty($tipo)) {
             $query = $query->whereArr('cursos.tipo',$tipo);
         }
-        if(isset($turno)) {
+        if(!empty($turno)) {
             $query = $query->where('cursos.turno',$turno);
         }
 
-        if(isset($division)) {
+        if(!empty($division)) {
             if($division=='vacia' || $division=='sin' || $division == null) {
                 $query = $query->where('cursos.division','');
             } else if($division=='con'){
@@ -392,7 +396,7 @@ class MatriculasPorSeccion extends Controller
             }
         }
 
-        if(isset($vacantes)) {
+        if(!empty($vacantes)) {
             switch ($vacantes) {
                 case 'con':
                     $query->havingRaw('(cursos.plazas - COUNT(inscripcions.id)) > 0');
