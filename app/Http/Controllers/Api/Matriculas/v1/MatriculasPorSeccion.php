@@ -123,10 +123,9 @@ class MatriculasPorSeccion extends Controller
             // Se carga la relacion con el modelo Titulacion
             $item->titulacion = Titulacion::select('nombre','nombre_abreviado','orientacion','norma_aprob_jur_nro as reso_titulacion_nro','norma_aprob_jur_anio as reso_titulacion_anio')->find($item->titulacion_id);
 
-            $item->confirmadas_excede_plaza = ($item->confirmadas > $item->plazas);
-
             $this->doHardcode($item);
 
+            $item->confirmadas_excede_plaza = ($item->confirmadas > $item->plazas);
         }
 
         $export = Input::get('export');

@@ -91,7 +91,7 @@ class RouteServiceProvider extends ServiceProvider
             ->in(app_path('Http/Controllers/Api'))
             ->name('routes.php');
 
-        $midd = ['api','cake'];
+        $midd = ['api','siep.auth'];
         if(env('BYPASSMID')) {
             $midd = ['api'];
         }

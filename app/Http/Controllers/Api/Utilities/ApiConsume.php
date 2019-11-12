@@ -26,7 +26,11 @@ class ApiConsume extends Controller
             $this->host = env('SIEP_LARAVEL_API');
         }
         $this->version = $version='api/v1';
-        $this->cakeHeader();
+        $this->setHeaders([
+            'X-SIEP-AUTH' => request()->headers->get('X-SIEP-AUTH'),
+            'X-SIEP-APIKEY' => request()->headers->get('X-SIEP-APIKEY'),
+            'Authorization' => request()->headers->get('Authorization'),
+        ]);
     }
 
     public function hasError() {
@@ -47,11 +51,9 @@ class ApiConsume extends Controller
         return $this->response;
     }
 
-    public function cakeHeader() {
+    public function setHeaders($headers) {
         $this->headers = [
-            'headers' => [
-                env('XHOSTCAKE') => 'do'
-            ]
+            'headers' => $headers
         ];
     }
 
@@ -97,7 +99,6 @@ class ApiConsume extends Controller
             $req['api_consume']['request'] = 'done';
             $this->response = $req;
         }
-
         return $this;
     }
 

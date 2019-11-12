@@ -20,7 +20,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
 
-        //\App\Http\Middleware\Cake::class
+        \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**
@@ -62,6 +62,6 @@ class Kernel extends HttpKernel
 
         'jwt' => \App\Http\Middleware\authJWT::class,
         'jwt.social' => \App\Http\Middleware\authJWTSocial::class,
-        'cake' => \App\Http\Middleware\Cake::class
+        'siep.auth' => \App\Http\Middleware\SiepAuth::class,
     ];
 }

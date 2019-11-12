@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\Api\Saneo\SaneoRepitencia;
-use App\Jobs\JobSaneoRepitenciaAndPromocion;
-use App\Jobs\TestFpmJob;
+use App\Http\Controllers\Api\Saneo\v1\SaneoRepitencia;
 use App\Jobs\WhileJobSaneoRepitenciaAndPromocion;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -45,13 +43,7 @@ class CmdSaneoRepitenciaAndPromocion extends Command
         $ciclo = $this->argument('ciclo');
         $por_pagina = $this->argument('por_pagina');
         $page = $this->argument('page');
-/*
-        TEST REQUEST TIMEOUT
-        Log::info("ARTISAN TestFpmJob: dispatch");
-        TestFpmJob::dispatch();
-        Log::info("ARTISAN TestFpmJob: dispatch done");
-*/
-        //$this->info("JobSaneoRepitenciaAndPromocion: $ciclo, $page, $por_pagina");
+
         Log::info("ARTISAN CmdSaneoRepitenciaAndPromocion HANDLE ciclo: $ciclo / page:$page / por_pagina: $por_pagina");
 
         //- Procesamos el saneo de la primer pagina -
