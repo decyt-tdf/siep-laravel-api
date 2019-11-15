@@ -50,7 +50,7 @@
                         @endif
                     </td>
                     <td>
-                        <div style="text-align:right; line-height: 150px; font-size: 11px">“2019 – AÑO DEL CENTENARIO DEL NACIMIENTO DE EVA DUARTE DE PERÓN”</div>
+                        <div style="text-align:right; line-height: 150px; font-size: 10px">“2019 – AÑO DEL CENTENARIO DEL NACIMIENTO DE EVA DUARTE DE PERÓN”</div>
                     </td>
                 </tr>
             </table>

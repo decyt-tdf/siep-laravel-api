@@ -248,10 +248,9 @@ class MatriculasPorSeccion extends Controller
                 'Por Hermano'
                 ];
             if($report_type){
+                array_push($content[0],'Promociones');
                 if($report_type == "repitencias"){
                     array_push($content[0],'Repitencias');
-                }else if($report_type == "promociones"){
-                    array_push($content[0],'Promociones');
                 }
             }else{
                 array_push($content[0],'Observaciones');
@@ -278,17 +277,16 @@ class MatriculasPorSeccion extends Controller
                         $item->por_hermano
                     ];
                     if($report_type){
+                        if(count($content) > 0){
+                            array_push($content[count($content) - 1],$item->promociones);
+                        }else{
+                            array_push($content,$item->promociones);
+                        }
                         if($report_type == 'repitencias'){
                             if(count($content) > 0){
                                 array_push($content[count($content) - 1],$item->repitencias);
                             }else{
                                 array_push($content,$item->repitencias);
-                            }
-                        }else if($report_type == 'promociones'){
-                            if(count($content) > 0){
-                                array_push($content[count($content) - 1],$item->promociones);
-                            }else{
-                                array_push($content,$item->promociones);
                             }
                         }
                     }else{
