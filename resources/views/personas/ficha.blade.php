@@ -61,14 +61,20 @@
         <h3>ALUMNO | DATOS DE CONTACTO</h3>
         <table class="tabla">
             <tr>
-                <th>Dirección</th>
                 <th>Barrio</th>
+                <th>Calle</th>
+                <th>Nº</th>
+                <th>Dto/Casa</th>
+                <th>Tira/Edificio</th>
                 <th>Telefono</th>
                 <th>Email</th>
             </tr>
             <tr>
-                <td>{{ $persona['calle_nombre'] }} {{ $persona['calle_nro'] }}</td>
                 <td>{{ $persona['barrio']['nombre'] }}</td>
+                <td>{{ $persona['calle_nombre'] }}</td>
+                <td>{{ $persona['calle_nro'] }}</td>
+                <td>{{ $persona['depto_casa'] }}</td>
+                <td>{{ $persona['tira_edificio'] }}</td>
                 <td>{{ $persona['telefono_nro'] }}</td>
                 <td>{{ $persona['email'] }}</td>
             </tr>
@@ -79,8 +85,11 @@
             <tr>
                 <th>Vinculo</th>
                 <th>Nombre completo</th>
-                <th>Dirección</th>
                 <th>Barrio</th>
+                <th>Calle</th>
+                <th>Nº</th>
+                <th>Dto/Casa</th>
+                <th>Tira/Edificio</th>
                 <th>Telefono</th>
                 <th>Email</th>
             </tr>
@@ -88,8 +97,11 @@
                 <tr>
                     <td>{{ $item['familiar']['vinculo'] }}</td>
                     <td>{{ $item['familiar']['persona']['nombre_completo'] }}</td>
-                    <td>{{ $item['familiar']['persona']['calle_nombre'] }} {{ $item['familiar']['persona']['calle_nro'] }}</td>
-                    <td>{{ $persona['barrio']['nombre'] }}</td>
+                    <td>{{ $item['familiar']['persona']['barrio']['nombre'] }}</td>
+                    <td>{{ $item['familiar']['persona']['calle_nombre'] }}</td>
+                    <td>{{ $item['familiar']['persona']['calle_nro'] }}</td>
+                    <td>{{ $item['familiar']['persona']['depto_casa'] }}</td>
+                    <td>{{ $item['familiar']['persona']['tira_edificio'] }}</td>
                     <td>{{ $item['familiar']['persona']['telefono_nro'] }}</td>
                     <td>{{ $item['familiar']['persona']['email'] }}</td>
                 </tr>
