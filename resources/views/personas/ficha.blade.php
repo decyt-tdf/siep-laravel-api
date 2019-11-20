@@ -97,7 +97,7 @@
                 <tr>
                     <td>{{ $item['familiar']['vinculo'] }}</td>
                     <td>{{ $item['familiar']['persona']['nombre_completo'] }}</td>
-                    <td>{{ $item['familiar']['persona']['barrio_id'] }}</td>
+                    <td>{{ $item['familiar']['persona']['barrio']['nombre'] }}</td>
                     <td>{{ $item['familiar']['persona']['calle_nombre'] }}</td>
                     <td>{{ $item['familiar']['persona']['calle_nro'] }}</td>
                     <td>{{ $item['familiar']['persona']['depto_casa'] }}</td>
