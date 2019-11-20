@@ -81,10 +81,9 @@
                     <th>Matrículas</th>
                     <th>Vacantes</th>
                     @if(isset($report_type))
+                        <th>Promociones</th>
                         @if($report_type === "repitencias")
                             <th>Repitencias</th>
-                        @elseif($report_type === "promociones")
-                            <th>Promociones</th>
                         @endif
                     @else
                         <th>Observaciones</th>
@@ -106,10 +105,9 @@
                         <td>{{$mat["matriculas"]}}</td>
                         <td>{{$mat["vacantes"]}}</td>
                         @if(isset($report_type))
+                            <td>{{$mat["promociones"]}}</td>
                             @if($report_type == "repitencias")
                                 <td>{{$mat["repitencias"]}}</td>
-                            @elseif($report_type == "promociones")
-                                <td>{{$mat["promociones"]}}</td>
                             @endif
                         @else
                             <td>{{$mat["observaciones"]}}</td>
