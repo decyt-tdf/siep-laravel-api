@@ -2,28 +2,26 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\Api\Saneo\SaneoRepitencia;
-use App\Jobs\JobSaneoRepitenciaAndPromocion;
-use App\Jobs\TestFpmJob;
-use App\Jobs\WhileJobSaneoRepitenciaAndPromocion;
+use App\Http\Controllers\Api\Saneo\v1\SaneoInscripciones;
+use App\Jobs\WhileJobSaneoInscripciones;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class CmdSaneoRepitenciaAndPromocion extends Command
+class CmdSaneoInscripciones extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'siep:saneo_rp {ciclo} {page} {por_pagina?}';
+    protected $signature = 'siep:saneo_inscripciones {ciclo} {page} {por_pagina?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Realiza un saneo de las repitencias y promociones';
+    protected $description = 'Realiza un saneo recorriendo todas las inscripciones';
 
     /**
      * Create a new command instance.
@@ -52,10 +50,10 @@ class CmdSaneoRepitenciaAndPromocion extends Command
         Log::info("ARTISAN TestFpmJob: dispatch done");
 */
         //$this->info("JobSaneoRepitenciaAndPromocion: $ciclo, $page, $por_pagina");
-        Log::info("ARTISAN CmdSaneoRepitenciaAndPromocion HANDLE ciclo: $ciclo / page:$page / por_pagina: $por_pagina");
+        Log::info("ARTISAN SaneoInscripciones HANDLE ciclo: $ciclo / page:$page / por_pagina: $por_pagina");
 
         //- Procesamos el saneo de la primer pagina -
-        $saneo = new SaneoRepitencia();
+        $saneo = new SaneoInscripciones();
         $saneo = $saneo->start($ciclo,$page,$por_pagina);
 
         // Obtenemos ultima pagina
@@ -63,25 +61,25 @@ class CmdSaneoRepitenciaAndPromocion extends Command
         //-------------------------------------------
 
         // Paginar Jobs debido al problema que surge con el max_execution_time entre nginx php-fpm
-        Log::info("ARTISAN CmdSaneoRepitenciaAndPromocion ciclo: $ciclo / page:$page / por_pagina: $por_pagina / ultimaPagina:$ultimaPagina ");
+        Log::info("ARTISAN SaneoInscripciones ciclo: $ciclo / page:$page / por_pagina: $por_pagina / ultimaPagina:$ultimaPagina ");
 
         $delay = 1;
         $nextPage = $page;
         for($i=1;$i<=$ultimaPagina;$i++) {
             if( ($i%300) == 0)
             {
-                Log::info("WhileJobSaneoRepitenciaAndPromocion::dispatch($ciclo,$nextPage,$por_pagina,$i);");
-                WhileJobSaneoRepitenciaAndPromocion::dispatch($ciclo,$nextPage,$por_pagina,$i)->delay(now()->addMinutes($delay));
+                Log::info("WhileJobSaneoInscripciones::dispatch($ciclo,$nextPage,$por_pagina,$i);");
+                WhileJobSaneoInscripciones::dispatch($ciclo,$nextPage,$por_pagina,$i)->delay(now()->addMinutes($delay));
                 $nextPage = $i;
             }
         }
 
         if($nextPage<$ultimaPagina)
         {
-            Log::info("WhileJobSaneoRepitenciaAndPromocion::dispatch($ciclo,$nextPage,$por_pagina,$ultimaPagina);");
-            WhileJobSaneoRepitenciaAndPromocion::dispatch($ciclo,$nextPage,$por_pagina,$ultimaPagina)->delay(now()->addMinutes($delay));
+            Log::info("WhileJobSaneoInscripciones::dispatch($ciclo,$nextPage,$por_pagina,$ultimaPagina);");
+            WhileJobSaneoInscripciones::dispatch($ciclo,$nextPage,$por_pagina,$ultimaPagina)->delay(now()->addMinutes($delay));
         }
 
-        Log::info("ARTISAN CmdSaneoRepitenciaAndPromocion DISPATCHED");
+        Log::info("ARTISAN SaneoInscripciones DISPATCHED");
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Resources\EgresoResource;
 use App\Resources\ListaAlumnosResource;
 use App\Resources\PromocionResource;
 use App\Resources\RepitenciaResource;
@@ -47,8 +48,8 @@ trait CustomPaginationScope {
             case 'PromocionResource':
                 return PromocionResource::collection($result);
                 break;
-            case 'RepitentesResource':
-                return RepitentesResource::collection($result);
+            case 'EgresoResource':
+                return EgresoResource::collection($result);
                 break;
             case 'RepitenciaResource':
                 return RepitenciaResource::collection($result);

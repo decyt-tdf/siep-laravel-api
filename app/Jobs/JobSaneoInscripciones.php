@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\Api\Saneo\SaneoRepitencia;
+use App\Http\Controllers\Api\Saneo\v1\SaneoInscripciones;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 
-class JobSaneoRepitenciaAndPromocion implements ShouldQueue
+class JobSaneoInscripciones implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -36,9 +36,9 @@ class JobSaneoRepitenciaAndPromocion implements ShouldQueue
      */
     public function handle()
     {
-        Log::info("HANDLE JobSaneoRepitenciaAndPromocion($this->ciclo,$this->page,$this->por_pagina) -- START");
-        $domagic = new SaneoRepitencia();
+        Log::info("HANDLE JobSaneoInscripciones($this->ciclo,$this->page,$this->por_pagina) -- START");
+        $domagic = new SaneoInscripciones();
         $domagic->start($this->ciclo,$this->page,$this->por_pagina);
-        Log::info("HANDLE JobSaneoRepitenciaAndPromocion($this->ciclo,$this->page,$this->por_pagina) -- COMPLETE");
+        Log::info("HANDLE JobSaneoInscripciones($this->ciclo,$this->page,$this->por_pagina) -- COMPLETE");
     }
 }

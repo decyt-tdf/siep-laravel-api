@@ -88,6 +88,10 @@
 
                 , división <b>{{ $curso->division }}</b>
                 del servicio y nivel <b>{{ $centro->nivel_servicio }}</b>
+
+                @if ($inscripcion->tipo_inscripcion == 'Estudiante de Intercambio')
+                    (inscripción tipo: <b>{{ $inscripcion->tipo_inscripcion }}</b>)
+                @endif
             </p>
 
             @if(!empty($inscripcion->observaciones))

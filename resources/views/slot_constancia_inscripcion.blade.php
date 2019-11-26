@@ -34,7 +34,11 @@
         </tr>
     </table>
     <br>
-    <h3>CONSTANCIA DE INSCRIPCIÓN | Estado: {{ $inscripcion->estado_inscripcion }}</h3>
+    @if ($inscripcion->tipo_inscripcion == 'Estudiante de Intercambio')
+        <h3>CONSTANCIA DE INSCRIPCIÓN | Estado: {{ $inscripcion->estado_inscripcion }} | {{ $inscripcion->tipo_inscripcion }}</h3>
+    @else
+        <h3>CONSTANCIA DE INSCRIPCIÓN | Estado: {{ $inscripcion->tipo_inscripcion }}</h3>
+    @endif
     <p>
         @if(isset($centro->nivel_servicio) && $centro->nivel_servicio=='Común - Inicial' && $centro->nivel_servicio=='Común - Primario')
             La Supervisión Técnica de Supervisión Escolar,

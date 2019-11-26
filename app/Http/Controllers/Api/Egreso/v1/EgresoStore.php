@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\Promocion\v1;
+namespace App\Http\Controllers\Api\Egreso\v1;
 
 use App\Centros;
 use App\Ciclos;
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
-class PromocionStore extends Controller
+class EgresoStore extends Controller
 {
     public $validationRules = [
         'id' => 'required|array',

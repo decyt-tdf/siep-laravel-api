@@ -24,11 +24,11 @@ trait WithInscripcionScopes {
             switch($param){
                 case 'si':
                 case 'con':
-                    return $inscripciones->whereNotNull('fecha_egreso');
+                    return $inscripciones->whereNotNull('egreso_id');
                     break;
                 case 'no':
                 case 'sin':
-                    return $inscripciones->whereNull('fecha_egreso');
+                    return $inscripciones->whereNull('egreso_id');
                     break;
             }
         });
@@ -116,6 +116,12 @@ trait WithInscripcionScopes {
     }
     function scopeFiltrarNivelServicio($query,$param) {
         $query->whereHas('Inscripcion.Centro', function ($q) use($param) {
+            return $q->whereArr('nivel_servicio',$param);
+        });
+    }
+
+    function scopeExcluirNivelServicio($query,$param) {
+        $query->whereDoesntHave('Inscripcion.Centro', function ($q) use($param) {
             return $q->whereArr('nivel_servicio',$param);
         });
     }

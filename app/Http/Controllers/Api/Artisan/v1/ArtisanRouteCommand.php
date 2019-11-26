@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Log;
 
 class ArtisanRouteCommand extends Controller
 {
-    public function repitencia()
+    public function saneo_inscripciones($ciclo=2020)
     {
-        Log::info("ROUTE /api/v1/artisan/repitencia");
+        Log::info("ROUTE /api/v1/artisan/saneo/inscripciones");
 
-        $artisan = Artisan::call('siep:saneo_rp', [
-            'ciclo' => 2019,
+        $artisan = Artisan::call('siep:saneo_inscripciones', [
+            'ciclo' => $ciclo,
             'por_pagina' => 20,
             'page' => 1
         ]);

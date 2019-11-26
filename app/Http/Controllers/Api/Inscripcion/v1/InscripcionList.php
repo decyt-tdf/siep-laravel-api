@@ -59,13 +59,13 @@ class InscripcionList extends Controller
         $persona= Input::get('persona');
 
         $hermano = Input::get('hermano');
-        $egresado = Input::get('egresado');
         $estado_inscripcion = Input::get('estado_inscripcion');
 
         $id= Input::get('id');
 
         $promocion = Input::get('promocion');
         $repitencia = Input::get('repitencia');
+        $egreso = Input::get('egreso');
         $pase = Input::get('pase');
 
         $por_pagina = Input::get('por_pagina');
@@ -99,8 +99,8 @@ class InscripcionList extends Controller
         if($hermano) {
             $query->filtrarHermano($hermano);
         }
-        if($egresado) {
-            $query->filtrarEgreso($egresado);
+        if($egreso) {
+            $query->filtrarEgreso($egreso);
         }
         if($promocion) {
             $query->filtrarPromocion($promocion);

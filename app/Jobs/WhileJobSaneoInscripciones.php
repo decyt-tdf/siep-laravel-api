@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 
-class WhileJobSaneoRepitenciaAndPromocion implements ShouldQueue
+class WhileJobSaneoInscripciones implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -42,12 +42,12 @@ class WhileJobSaneoRepitenciaAndPromocion implements ShouldQueue
     public function handle()
     {
         $nextPage = $this->page + 1;
-        Log::info("ARTISAN WhileJobSaneoRepitenciaAndPromocion: Build {$this->build} | Prepare Jobs $nextPage / {$this->ultima_pagina}");
+        Log::info("ARTISAN WhileJobSaneoInscripciones: Build {$this->build} | Prepare Jobs $nextPage / {$this->ultima_pagina}");
         while($nextPage <= $this->ultima_pagina) {
-            Log::info("ARTISAN JobSaneoRepitenciaAndPromocion::dispatch: $nextPage / {$this->ultima_pagina}");
-            JobSaneoRepitenciaAndPromocion::dispatch($this->ciclo,$nextPage,$this->por_pagina); //->delay(now()->addMinutes(10));
+            Log::info("ARTISAN JobSaneoInscripciones::dispatch: $nextPage / {$this->ultima_pagina}");
+            JobSaneoInscripciones::dispatch($this->ciclo,$nextPage,$this->por_pagina); //->delay(now()->addMinutes(10));
             $nextPage++;
         }
-        Log::info("ARTISAN WhileJobSaneoRepitenciaAndPromocion: Jobs Created {$this->ultima_pagina}");
+        Log::info("ARTISAN WhileJobSaneoInscripciones: Jobs Created {$this->ultima_pagina}");
     }
 }

@@ -106,6 +106,7 @@ class RepitenciaStore extends Controller
                     $repitencia->promocionado = null; // Deprecar
                     $repitencia->promocion_id = null;
                     $repitencia->repitencia_id = null;
+                    $repitencia->egreso_id = null;
 
                     $repitencia->created = $today;
                     $repitencia->modified = $today;

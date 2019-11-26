@@ -57,6 +57,7 @@ class PersonaTrayectoriaResource extends Resource
                         'centro_origen_id',
                         'promocion_id',
                         'repitencia_id',
+                        'egreso_id',
                         'fecha_baja',
                         'tipo_baja',
                         'motivo_baja',
