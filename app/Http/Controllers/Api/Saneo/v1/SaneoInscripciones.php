@@ -16,6 +16,11 @@ class SaneoInscripciones extends Controller
     private $cicloAnterior= null;
     private $cicloSiguiente= null;
 
+    private $logprefix = "";
+
+    private $isMultiple_inscripcionAnterior = false;
+    private $isBaja_inscripcionAnterior = false;
+
     public function start($ciclo=2020,$page=1,$por_pagina=20)
     {
         $this->cicloActual = Ciclos::where('nombre',$ciclo)->first();
@@ -135,7 +140,7 @@ class SaneoInscripciones extends Controller
         $inscripcion = collect($item['inscripcion']);
         $inscripcion['curso']= collect($item['curso']);
 
-        $logInscInfo = "sv1|{$inscripcion['id']}|{$inscripcion['legajo_nro']}|";
+        $this->logprefix = "sv1|{$inscripcion['id']}|{$inscripcion['legajo_nro']}|";
 
         // Devuelve ELOQUENT con informacion de inscripcion anterior
         $anterior = null;
@@ -145,19 +150,20 @@ class SaneoInscripciones extends Controller
         } catch (\Exception $ex)
         {
             Log::error("CATCH obtenerInscripcionAnterior({$inscripcion['id']})".$ex->getMessage());
+
+            return;
         }
 
-        $anteriorConBaja = false;
         if($anterior==null) {
-            Log::info("$logInscInfo No se detecto una inscripcion anterior [CONFIRMADA/EGRESO]");
-            //Log::info("$logInscInfo Iniciando busqueda de inscripciones con BAJA");
+            Log::info("{$this->logprefix} No se detecto una inscripcion anterior [CONFIRMADA/EGRESO]");
             $anterior = $this->obtenerInscripcionAnterior($inscripcion,true);
             if($anterior!=null) {
-                $anteriorConBaja = true;
-                Log::info("$logInscInfo Inscripcion anterior BAJA localizada|{$anterior->inscripcion->id}|{$anterior->inscripcion->legajo_nro}");
+                if(!$this->isMultiple_inscripcionAnterior){
+                    Log::info("{$this->logprefix} Inscripcion anterior BAJA localizada|{$anterior->inscripcion->id}|{$anterior->inscripcion->legajo_nro}");
+                }
             } else {
-                Log::info("$logInscInfo No se detecto una inscripcion anterior [BAJA]");
-                Log::info("$logInscInfo Posible inscripcion NUEVA");
+                Log::info("{$this->logprefix} No se detecto una inscripcion anterior [BAJA]");
+                Log::info("{$this->logprefix} Posible inscripcion NUEVA");
                 return;
             }
         }
@@ -169,8 +175,14 @@ class SaneoInscripciones extends Controller
             'id' => null,
         ];
 
+        // En caso de haber detectado inscripciones multiples... cancelamos toda operacion..
+        if($this->isMultiple_inscripcionAnterior) {
+            Log::info("{$this->logprefix} MULTIPLE CANCELADA");
+            return;
+        }
+
         if($this->isEgreso($compareData)) {
-            if($anteriorConBaja) {
+            if($this->isBaja_inscripcionAnterior) {
                 $traza['mode'] = 'EGRESO CANCELADO (DESDE BAJA)';
             } else {
                 $traza['mode'] = 'EGRESO';
@@ -183,7 +195,7 @@ class SaneoInscripciones extends Controller
         }
 
         if($this->isRepitencia($compareData)) {
-            if($anteriorConBaja) {
+            if($this->isBaja_inscripcionAnterior) {
                 $traza['mode'] = 'REPITENCIA CANCELADA (DEDE BAJA)';
             } else {
                 $traza['mode'] = 'REPITENCIA';
@@ -195,7 +207,7 @@ class SaneoInscripciones extends Controller
         }
 
         if($this->isPromocion($compareData)) {
-            if($anteriorConBaja) {
+            if($this->isBaja_inscripcionAnterior) {
                 $traza['mode'] = 'PROMOCION CANCELADA (DESDE BAJA)';
             } else {
                 $traza['mode'] = 'PROMOCION';
@@ -207,23 +219,28 @@ class SaneoInscripciones extends Controller
         }
 
         if($traza['mode'] == null) {
-            Log::error("$logInscInfo NO SE DETERMINO EL MODO DE TRAZA");
+            Log::error("{$this->logprefix} NO SE DETERMINO EL MODO DE TRAZA");
         }
 
         $traza['desde'] =  collect($compareData['anterior']['inscripcion'])->only('id','legajo_nro');
         $traza['hacia'] =  collect($compareData['actual']['inscripcion'])->only('id','legajo_nro');
 
-        Log::info("$logInscInfo {$traza['mode']} |{$traza['desde']['id']}|{$traza['desde']['legajo_nro']}");
+        Log::info("{$this->logprefix} {$traza['mode']} |{$traza['desde']['id']}|{$traza['desde']['legajo_nro']}");
     }
 
     private function obtenerInscripcionAnterior($inscripcion,$conBaja=false)
     {
+        // Reseteo flag de inscripcion multiple detectada
+        $this->isMultiple_inscripcionAnterior = false;
+        $this->isBaja_inscripcionAnterior = false;
+
         $alumno = collect($inscripcion['alumno']);
         $persona = collect($alumno['persona']);
 
         $estadoInscripcion = ['CONFIRMADA','EGRESO'];
         if($conBaja) {
             $estadoInscripcion = 'BAJA';
+            $this->isBaja_inscripcionAnterior = true;
         }
 
         $inscripcionAnteriorQuery = CursosInscripcions::filtrarPersona($persona['id'])
@@ -242,16 +259,25 @@ class SaneoInscripciones extends Controller
         // Verifica cuantas inscripciones anteriores se registraron en estado CONFIRMADA y EGRESO
         $total = $inscripcionAnteriorQuery->count();
         if($total>1) {
-            Log::debug("Multiples cursos detectados: Persona:{$persona['id']}) en {$this->cicloAnterior->nombre} TOTAL:$total");
             $all = $inscripcionAnteriorQuery->get();
 
-            // Es probable que tengan la misma inscripcion_id, pero en cursos diferentes (especiales)
-            $agrupar = $all->groupBy('inscripcion_id');
-            if(count($agrupar)>1) {
-                Log::debug("Multiples inscripciones anteriores: Persona:{$persona['id']}) en {$this->cicloAnterior->nombre} TOTAL:$total");
-                foreach ($agrupar as $item) {
-                    Log::debug($item);
-                }
+            $this->isMultiple_inscripcionAnterior = true;
+
+            $i=1;
+            foreach ($all as $item) {
+                $msg = [];
+                $msg[] = $item['inscripcion']['estado_inscripcion'];
+                $msg[] = $item['inscripcion']['id'];
+                $msg[] = $item['inscripcion']['legajo_nro'];
+                $msg[] = $item['inscripcion']['centro']['nombre'];
+                $msg[] = $item['inscripcion']['centro']['nivel_servicio'];
+                $msg[] = $item['curso']['id'];
+                $msg[] = $item['curso']['anio'];
+                $msg[] = $item['curso']['division'];
+                $msg = join('|',$msg);
+
+                Log::debug("{$this->logprefix} MULTIPLE N°{$i} $msg");
+                $i++;
             }
         }
 

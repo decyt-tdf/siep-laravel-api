@@ -80,6 +80,7 @@ class MatriculasPorSeccion extends Controller
             COUNT(inscripcions.hermano_id) as por_hermano,
             COUNT(inscripcions.promocion_id) as promociones,
             COUNT(inscripcions.repitencia_id) as repitencias,
+            COUNT(inscripcions.egreso_id) as egresos,
             cursos.observaciones,
             CAST(SUM(if(inscripcions.estado_inscripcion  = "CONFIRMADA", 1, 0)) AS UNSIGNED) AS confirmadas
             ')
