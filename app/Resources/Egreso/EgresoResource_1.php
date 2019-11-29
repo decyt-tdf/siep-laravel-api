@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Resources;
+namespace App\Resources\Egreso;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class EgresoResource extends Resource
+class EgresoResource_1 extends Resource
 {
     public function toArray($request)
     {
@@ -21,7 +21,7 @@ class EgresoResource extends Resource
         $persona=  collect($alumno['persona']);
 
         $curso = $curso->only([
-            'anio','division','turno','centro_id'
+            'anio','division','turno'
         ]);
 
         // Obtener curso de repitencia
@@ -33,7 +33,7 @@ class EgresoResource extends Resource
             $cursoAnterior = collect($inscripcion['egreso']['curso']);
             $cursoAnterior = $cursoAnterior->first();
             $cursoAnterior = collect($cursoAnterior)->only([
-                'anio','division','turno','centro_id'
+                'anio','division','turno'
             ]);
             $centroAnterior =  collect($inscripcion['egreso']['centro']);
             $centroAnterior = $centroAnterior->only([
@@ -53,7 +53,7 @@ class EgresoResource extends Resource
 
         $inscripcion['alumno_id'] = $alumno->get('id');
         $inscripcion['persona'] = $persona->only([
-            "id","nombre_completo"
+            "id","nombre_completo","documento_nro"
         ]);
 
         $desde = compact('centro','curso');

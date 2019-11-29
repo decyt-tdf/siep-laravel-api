@@ -19,7 +19,7 @@ class Cursos extends Model
 
     public function getNombreCompletoAttribute()
     {
-        return "{$this->anio} {$this->division} {$this->turno} {$this->tipo}";
+        return "{$this->anio} {$this->division} {$this->turno}";
     }
 
     function Centro()

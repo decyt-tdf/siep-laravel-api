@@ -2,11 +2,10 @@
 
 namespace App\Traits;
 
-use App\Resources\EgresoResource;
+use App\Resources\Egreso\EgresoResource;
 use App\Resources\ListaAlumnosResource;
 use App\Resources\PromocionResource;
 use App\Resources\RepitenciaResource;
-use App\Resources\RepitentesResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Input;
 

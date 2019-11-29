@@ -52,7 +52,7 @@ class Inscripcions extends Model
 
     function Egreso()
     {
-        return $this->belongsTo('App\Inscripcions', 'egreso_id', 'id')->with(['curso','centro']);
+        return $this->belongsTo('App\Inscripcions', 'egreso_id', 'id')->with(['curso','centro','ciclo']);
     }
 
     function CursosInscripcions()
