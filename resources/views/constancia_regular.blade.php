@@ -94,11 +94,11 @@
                 @endif
             </p>
 
-            @if(!empty($inscripcion->observaciones))
+            @if(!empty($inscripcion->alumno->observaciones))
             <h4>Datos complementarios</h4>
 
             <p>
-                {{ $inscripcion->observaciones }}
+                {{ $inscripcion->alumno->observaciones }}
             </p>
             @endif
             <p>

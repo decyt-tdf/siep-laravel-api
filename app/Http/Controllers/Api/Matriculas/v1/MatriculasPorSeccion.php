@@ -312,6 +312,7 @@ class MatriculasPorSeccion extends Controller
         $ciclo = Input::get('ciclo');
         $ciudad = Input::get('ciudad');
         $ciudad_id = Input::get('ciudad_id');
+        $nombre = Input::get('nombre');
         $centro_id = Input::get('centro_id');
         $curso_id = Input::get('curso_id');
         $anio = Input::get('anio');
@@ -366,7 +367,10 @@ class MatriculasPorSeccion extends Controller
         if(!empty($hermano)) {
             $query = $query->where('inscripcions.hermano_id','<>',null);
         }
-        if(!empty($sector)) {
+        if(isset($nombre)) {
+            $query = $query->where('centros.nombre',$nombre);
+        }
+        if(isset($sector)) {
             $query = $query->where('centros.sector',$sector);
         }
         if(!empty($nivel_servicio)) {

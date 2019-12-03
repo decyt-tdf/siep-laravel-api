@@ -47,4 +47,17 @@ class Constancia extends Controller
 
         return $pdf->stream("constancia_regular_$inscripcion_id.pdf");
     }
+
+    public function regularData($inscripcion_id)
+    {
+        $input = ['inscripcion_id'=>$inscripcion_id];
+        if($fail = DefaultValidator::make($input,$this->validationRules)) return $fail;
+
+        $cursoInscripcions = CursosInscripcions::where('inscripcion_id',$inscripcion_id)->first();
+        if(!$cursoInscripcions) {
+            return ['error' => 'No se encontro una inscripcion con esa ID'];
+        }
+
+        return $cursoInscripcions;
+    }
 }
