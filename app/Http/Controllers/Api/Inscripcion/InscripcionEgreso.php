@@ -85,7 +85,7 @@ class InscripcionEgreso extends Controller
                 }
                 break;
             case '7mo': // Colegios Secundarios Técnicos.
-                if ($nivelServicio == 'Común - Secundario' && ($cue == '940007700' || $cue == '940008300' || $cue == '940020500' || $cue == '940015900')) {
+                if ($nivelServicio == 'Común - Secundario' && ($cue == '940007700' || $cue == '940008300' || $cue == '940020500' || $cue == '940015900' || $cue == '940015700')) {
                     $egresar = true;
                 }
                 break;    
