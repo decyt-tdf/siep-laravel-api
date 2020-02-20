@@ -168,11 +168,9 @@ class MatriculasPorSeccion extends Controller
                     }
                     */
                     // CENTRO_ID: 173 --> ESCUELA PROVINCIAL Nº 40 - MARIA ELENA WALSH
-                    /*
                     if($item->centro_id==173) {
                         $item->plazas = 12;
                     }
-                    */
                     // CENTRO_ID: 10 --> ESCUELA PROVINCIAL Nº 13 - ALMIRANTE GUILLERMO BROWN
                     /*
                     if($item->centro_id==10) {
