@@ -29,7 +29,7 @@
             </td>
             <td>
                 <h2 style="text-align: right">INSCRIPCIÓN NÚMERO | {{ $inscripcion->legajo_nro }}</h2>
-                <div style="text-align: right; font-size: 12px">“2019 – AÑO DEL CENTENARIO DEL NACIMIENTO DE EVA DUARTE DE PERÓN”</div>
+                <div style="text-align: right; font-size: 12px">“2020 - Año del General Manuel Belgrano”</div>
             </td>
         </tr>
     </table>
