@@ -50,7 +50,7 @@
                         @endif
                     </td>
                     <td>
-                        <div style="text-align:right; line-height: 150px; font-size: 10px">“2020 - Año del General Manuel Belgrano”</div>
+                        <div style="text-align:right; line-height: 150px; font-size: 9px">“2020 - Año del General Manuel Belgrano”</div>
                     </td>
                 </tr>
             </table>
