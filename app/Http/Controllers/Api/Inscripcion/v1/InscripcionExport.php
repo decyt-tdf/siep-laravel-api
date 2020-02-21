@@ -33,7 +33,7 @@ class InscripcionExport extends Controller
 
             $content = [];
             // Primer fila
-            $content[] = ['Ciclo', 'Centro', 'Curso', 'Division', 'Turno', 'DNI', 'Alumno','Estado'];
+            $content[] = ['Ciclo', 'Centro', 'Curso', 'Division', 'Turno', 'DNI', 'Alumno', 'Sexo', 'Edad', 'Estado'];
 
             // Contenido
             foreach($sorted as $index => $item) {
@@ -55,7 +55,8 @@ class InscripcionExport extends Controller
                     $line[] = '-';
                     $line[] = '-';
                 }
-
+                $line[] = $persona['sexo'];
+                $line[] = $persona['edad'];
                 $line[] = $inscripcion['estado_inscripcion'];
                 $content[] = $line;
 
