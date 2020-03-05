@@ -179,7 +179,11 @@ class MatriculasPorSeccion extends Controller
                     */
                     // CENTRO_ID: 124 --> ESCUELA PROVINCIAL Nº 35 - JORGE LUIS BORGES
                     if($item->centro_id==124) {
+                        if($item->curso_id==2217 || $item->curso_id==3967 || $item->curso_id==2219 || $item->curso_id==2220 || $item->curso_id==2221 || $item->curso_id==3280 || $item->curso_id==2223 || $item->curso_id==2224 || $item->curso_id==3998 || $item->curso_id==2226 || $item->curso_id==2227 || $item->curso_id==2228) {
+                            $item->plazas = 18;
+                        } else {
                         $item->plazas = 22;
+                        }
                     }
                     // Recuento de vacantes
                     $item->vacantes= $item->plazas - $item->matriculas;
